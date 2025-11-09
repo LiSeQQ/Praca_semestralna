@@ -186,11 +186,15 @@ $logs = $conn->query("
           <td><?= htmlspecialchars($u['role']) ?></td>
           <td><?= $u['created_at'] ?></td>
           <td>
-            <?php if ($u['id'] !== $admin['id']): ?>
-              <a class="del" href="?delete_user=<?= $u['id'] ?>" onclick="return confirm('Na pewno usunąć użytkownika?')">Usuń</a>
-            <?php else: ?>
-              <i>(Ty)</i>
-            <?php endif; ?>
+           <?php if ($u['role'] === 'admin'): ?>
+    <span style="color: gray;">🚫 Nie można usunąć admina</span>
+<?php elseif ($u['id'] !== $admin['id']): ?>
+    <a class="del" href="?delete_user=<?= $u['id'] ?>" 
+       onclick="return confirm('Na pewno usunąć użytkownika?')">Usuń</a>
+<?php else: ?>
+    <i>(Ty)</i>
+<?php endif; ?>
+
           </td>
         </tr>
       <?php endwhile; ?>

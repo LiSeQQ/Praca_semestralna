@@ -28,7 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $input_code = trim($_POST['code']);
 
     if ($input_code === $auth_code_db) {
-        // sukces – logowanie zakończone
         $_SESSION['authenticated'] = true;
 
         if ($userData['role'] == 'admin') {
@@ -38,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         exit;
     } else {
-        $error = "Niepoprawny kod uwierzytelniający.";
+        $error = "❌ Niepoprawny kod uwierzytelniający.";
     }
 }
 ?>
@@ -49,23 +48,92 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta charset="utf-8">
   <title>Uwierzytelnienie</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #1e88e5, #64b5f6);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+    .auth-box {
+      background: #fff;
+      padding: 40px 45px;
+      border-radius: 16px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      width: 360px;
+      transition: all 0.3s ease;
+    }
+    .auth-box:hover {
+      transform: translateY(-4px);
+    }
+    h1 {
+      color: #1976d2;
+      margin-bottom: 10px;
+      font-size: 1.8em;
+    }
+    p {
+      color: #555;
+      margin-bottom: 25px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
+      text-align: center;
+      transition: 0.3s;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #1976d2;
+      box-shadow: 0 0 5px rgba(25, 118, 210, 0.3);
+    }
+    button {
+      background: #1976d2;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #0d47a1;
+    }
+    .alert {
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .alert-error {
+      background: #ffcdd2;
+      color: #b71c1c;
+      border: 1px solid #f44336;
+    }
+  </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <h1>Uwierzytelnienie</h1>
-    <p>Podaj kod, który otrzymałeś przy rejestracji.</p>
+  <div class="auth-box">
+    <h1>🔒 Uwierzytelnienie</h1>
+    <p>Podaj 6-cyfrowy kod, który otrzymałeś przy rejestracji.</p>
 
     <?php if (!empty($error)): ?>
       <div class="alert alert-error"><?= htmlspecialchars($error) ?></div>
     <?php endif; ?>
 
     <form method="post">
-      <label>
-        Kod uwierzytelniający
-        <input type="text" name="code" maxlength="6" required>
-      </label>
-      <button type="submit" class="btn">Potwierdź</button>
+      <input type="text" name="code" maxlength="6" placeholder="Wpisz kod..." required>
+      <button type="submit">✅ Potwierdź</button>
     </form>
   </div>
 </body>
