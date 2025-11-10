@@ -12,7 +12,7 @@ $user_id = $user['id'];
 $username = htmlspecialchars($user['username']);
 $role = $user['role'];
 
-// Wylogowanie
+
 if (isset($_POST['logout'])) {
     session_unset();
     session_destroy();
@@ -20,14 +20,13 @@ if (isset($_POST['logout'])) {
     exit;
 }
 
-// Obsługa formularza dodawania nowego zlecenia
+
 $message = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_service'])) {
     $car_model = trim($_POST['car_model']);
     $description = trim($_POST['description']);
     $status = $_POST['status'];
 
-    // obsługa pliku
     $image_name = null;
     if (!empty($_FILES['image']['name'])) {
         $target_dir = "uploads/";
@@ -52,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_service'])) {
     }
 }
 
-// Aktualizacja statusu zlecenia
+
 if (isset($_POST['update_status'])) {
     $service_id = $_POST['service_id'];
     $new_status = $_POST['new_status'];
@@ -66,7 +65,7 @@ if (isset($_POST['update_status'])) {
     exit;
 }
 
-// Pobranie wszystkich zleceń użytkownika
+
 $stmt = $conn->prepare("SELECT * FROM services WHERE user_id=? ORDER BY created_at DESC");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();

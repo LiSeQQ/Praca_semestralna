@@ -10,7 +10,7 @@ if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
 $admin = $_SESSION['user'];
 $username = htmlspecialchars($admin['username']);
 
-// funkcja logująca akcje
+
 function add_log($conn, $user_id, $action) {
     $stmt = $conn->prepare("INSERT INTO logs (user_id, action) VALUES (?, ?)");
     $stmt->bind_param("is", $user_id, $action);
@@ -18,7 +18,7 @@ function add_log($conn, $user_id, $action) {
     $stmt->close();
 }
 
-// wylogowanie
+
 if (isset($_POST['logout'])) {
     add_log($conn, $admin['id'], "Wylogowanie administratora");
     session_unset();
@@ -27,7 +27,7 @@ if (isset($_POST['logout'])) {
     exit;
 }
 
-// usuwanie użytkownika
+
 if (isset($_GET['delete_user'])) {
     $id = (int)$_GET['delete_user'];
     if ($id !== $admin['id']) { // nie można usunąć samego siebie
@@ -41,7 +41,7 @@ if (isset($_GET['delete_user'])) {
     exit;
 }
 
-// usuwanie zlecenia
+
 if (isset($_GET['delete_service'])) {
     $id = (int)$_GET['delete_service'];
     $stmt = $conn->prepare("DELETE FROM services WHERE id=?");
@@ -53,7 +53,7 @@ if (isset($_GET['delete_service'])) {
     exit;
 }
 
-// pobranie danych
+
 $users = $conn->query("SELECT id, username, role, created_at FROM users ORDER BY id ASC");
 $services = $conn->query("
     SELECT s.id, s.car_model, s.description, s.status, s.image, s.created_at, u.username 

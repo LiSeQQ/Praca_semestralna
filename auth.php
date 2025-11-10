@@ -10,7 +10,7 @@ if (!isset($_SESSION['user'])) {
 $user = $_SESSION['user'];
 $username = $user['username'];
 
-// Pobierz auth_code z bazy danych
+
 $stmt = $conn->prepare("SELECT auth_code, role FROM users WHERE username = ?");
 $stmt->bind_param("s", $username);
 $stmt->execute();

@@ -29,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->close();
     }
 
-    // jeśli OK — wstawiamy do DB
+   
     if (empty($errors)) {
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        // generujemy 6-cyfrowy kod jako string (np. "042371")
+        
         $auth_code = str_pad(strval(rand(0, 999999)), 6, "0", STR_PAD_LEFT);
         $role = 'user';
 
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->execute()) {
             $success = "Rejestracja zakończona sukcesem. Możesz się teraz zalogować.";
-            // dla testów developerskich możemy wyświetlić auth_code (w prawdziwym systemie wysyłamy e-mail/SMS)
+            
             $success .= " (Dev auth code: <strong>" . htmlspecialchars($auth_code) . "</strong>)";
         } else {
             $errors[] = "Błąd zapisu do bazy: " . $stmt->error;

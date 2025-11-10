@@ -10,7 +10,7 @@ if (!isset($_SESSION['user'])) {
 $user = $_SESSION['user'];
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// pobierz dane zlecenia
+
 $stmt = $conn->prepare("SELECT * FROM services WHERE id=?");
 $stmt->bind_param("i", $id);
 $stmt->execute();
@@ -29,7 +29,7 @@ if ($user['role'] !== 'admin' && $user['id'] !== $service['user_id']) {
     exit;
 }
 
-// funkcja do logowania
+
 function add_log($conn, $user_id, $action) {
     $stmt = $conn->prepare("INSERT INTO logs (user_id, action) VALUES (?, ?)");
     $stmt->bind_param("is", $user_id, $action);
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $description = trim($_POST['description']);
     $status = $_POST['status'];
 
-    $image = $service['image']; // zachowaj stare zdjęcie
+    $image = $service['image']; 
 
     if (!empty($_FILES['image']['name'])) {
         $targetDir = "uploads/";
